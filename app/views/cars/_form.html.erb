@@ -1,0 +1,38 @@
+<%= form_with(model: car, local: true) do |form| %>
+  <% if car.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(car.errors.count, "error") %> prohibited this car from being saved:</h2>
+
+      <ul>
+        <% car.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name, 'Makes: ' %>
+    <%= form.collection_select :make_id, Make.all, :id, :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :name, 'Model: ' %>
+    <%= form.text_field :car_model %>
+  </div>
+
+  <div class="field">
+    <%= form.label :name, 'Vin Number: ' %>
+    <%= form.text_field :vin_number %>
+  </div>
+
+  <div class="col-md-4 checkbox-list">
+    <%= form.label :name, 'Parts: ' %>
+    <br>
+    <%= form.collection_check_boxes(:part_ids, Part.all, :id, :part_name, :item_wrapper_class => 'checkbox_container') %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

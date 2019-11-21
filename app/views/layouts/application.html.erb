@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>CarPartsStore</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+<nav class="navbar-xs fixed-bottom navbar-light bg-light" style="background-color: #e3f2fd;">
+  <a class="navbar-nav" href="#" style="font-size: 13px !important; text-align:center;">© CarPartsStore | P.O. Box 73502 | Denver, CO 80231 | Phone: 800-555-3256 | Email: info@carpartsstore.com </a>
+</nav>
+<!--header navbar-->
+<nav class="navbar navbar-expand-sm bg-dark">
+  <a class="navbar-brand" href="#">CarPartsStore</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="<%= cars_path %>">Cars</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="<%= makes_path %>">Makes</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="<%= parts_path %>">Parts</a>
+      </li>
+    </ul>
+  </div>
+  <div class="text-right">
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Log In / Profile <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <% if user_signed_in? %>
+            <li><%= link_to "Edit profile", edit_user_registration_path, class: "btn-xs btn-default", style: "color: black" %></li>
+          <% else %>
+            <li><%= link_to "Sign up", new_user_registration_path, style: "color: black" %></li>
+            <li><%= link_to "Login", new_user_session_path, style: "color: black" %></li>
+          <% end %>
+          <% if user_signed_in? %>
+            <li role="separator" class="divider"></li>
+            <li><%= link_to "Logout", destroy_user_session_path, class: "btn-xs btn-default", style: "color: black" , method: :delete %></li>
+          <% end %>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+<body>
+<%= yield %>
+</body>
+</html>

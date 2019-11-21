@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Single Page App - Assignment 5</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1 style="font-family:monoton, cursive;">CarPartsStore</h1>
+</header>
+
+<button onclick="fetch('cars', ['car_make', 'car_model', 'vin_number'])">Cars</button>
+<button onclick="fetch('parts', ['part_name'])">Parts</button>
+<button onclick="fetch('makes', ['name', 'country'])">Makes</button>
+
+<div id="list">
+</div>
+
+<script>
+    var l = document.getElementById("list");
+    var clear = function() {
+        while (l.firstChild) {
+            l.removeChild(l.firstChild);
+        }
+    };
+    var http_request = new XMLHttpRequest();
+    var fetch = function(which, fields) {
+        http_request.open("GET", "http://localhost:3000/" + which + ".json", true);
+        http_request.onreadystatechange = function () {
+            let done = 4, ok = 200;
+            if (http_request.readyState === done && http_request.status === ok) {
+                clear();
+                // console log the json data
+                //console.log(http_request.responseText);
+                let ol = document.createElement('ol');
+                l.appendChild(ol);
+                let jo = JSON.parse(http_request.responseText);
+
+                for(var i = 0; i < jo.length; i++){
+                    console.log(jo[i]);
+                }
+
+                // if(which === "cars") {
+                //     document.write('<p>test</p>');
+                // }
+
+
+                for (i in jo) {
+                    let li = document.createElement('li');
+                    for (f in fields) {
+                        li.textContent += jo[i][fields[f]] + ' ';
+                    }
+                    ol.appendChild(li);
+                }
+            }
+        };
+        http_request.send(null);
+    };
+</script>
+
+<header>
+    <h6 style="font-family:monoton">CarPartsStore | 7575 Colfax Blvd. | Denver, CO, 80231</h6>
+</header>
+
+</body>
+</html>
