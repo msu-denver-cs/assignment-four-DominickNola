@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Single Page App - Assignment 5</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<nav class="navbar navbar-inverse bg-dark">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">CarPartsStore</a>
+            <ul class="nav navbar-nav">
+                <button style="margin-top: 5px" onclick="fetch('makes', ['name', 'country'])">Makes</button>
+                <button onclick="fetch('parts', ['part_name'])">Parts</button>
+                <button onclick="fetch('cars', ['car_make', 'car_model', 'vin_number', 'parts'])">Orders</button>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+
+<div id="list">
+</div>
+
+<script>
+    var list = document.getElementById("list");
+    var clear = function() {
+        while (list.firstChild) {
+            list.removeChild(list.firstChild);
+        }
+    };
+    var http_request = new XMLHttpRequest();
+    var fetch = function(which, fields) {
+        http_request.open("GET", "http://localhost:3000/" + which + ".json", true);
+        http_request.onreadystatechange = function () {
+            let done = 4, ok = 200;
+            if (http_request.readyState === done && http_request.status === ok) {
+                clear();
+                // console log the json data
+                //console.log(http_request.responseText);
+                let ordered_list = document.createElement('ol');
+                list.appendChild(ordered_list);
+                let jason_parse = JSON.parse(http_request.responseText);
+
+                for(var i = 0; i < jason_parse.length; i++){
+                    console.log(jason_parse[i]);
+                }
+
+                for (i in jason_parse) {
+                    let list_element = document.createElement('li');
+                    for (f in fields) {
+                        list_element.textContent += jason_parse[i][fields[f]] + ' ';
+                    }
+                    ordered_list.appendChild(list_element);
+                }
+            }
+        };
+        http_request.send(null);
+    };
+</script>
+
+<header>
+    <h6>CarPartsStore | 7575 Colfax Blvd. | Denver, CO, 80231</h6>
+</header>
+
+</body>
+</html>
